@@ -39,42 +39,11 @@ function ProductCard({ product }: { product: Product }) {
     <Link href={`/products/${product.id}`} className="block bg-card text-card-foreground rounded-lg shadow hover:shadow-lg transition-all cursor-pointer overflow-hidden border border-border hover:border-primary/50 hover:-translate-y-1">
       <div className="relative h-[400px] bg-muted dark:bg-gray-800 rounded-lg overflow-hidden mb-4">
         {product.imageUrls && product.imageUrls.length > 0 ? (
-          <div
-            className="w-full h-full grid gap-0.5 p-0.5"
-            style={{
-              gridTemplateColumns: '1fr 1fr',
-              gridTemplateRows: product.imageUrls.length <= 2 ? '1fr 1fr' : '1fr 1fr 1fr',
-            }}
-          >
-            {product.imageUrls.map((url, i) => {
-              if (i >= 4) return null;
-              let spanClass = 'col-span-1 row-span-1';
-              if (product.imageUrls.length === 1) {
-                spanClass = 'col-span-2 row-span-2';
-              } else if (product.imageUrls.length === 2) {
-                spanClass = 'col-span-2 row-span-1';
-              } else if (product.imageUrls.length === 3 && i === 0) {
-                spanClass = 'col-span-2 row-span-1';
-              }
-              return (
-                <div
-                  key={i}
-                  className={`${spanClass} overflow-hidden bg-muted flex items-center justify-center relative`}
-                >
-                  <img
-                    src={url}
-                    alt={`${product.name} - Image ${i + 1}`}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                  {product.imageUrls.length > 4 && i === 3 && (
-                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                      <span className="text-white text-lg font-bold">+{product.imageUrls.length - 4}</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <img
+            src={product.imageUrls[0]}
+            alt={product.name}
+            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+          />
         ) : (
           <span className="text-muted-foreground text-sm">Product Image</span>
         )}

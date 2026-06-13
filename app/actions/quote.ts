@@ -39,6 +39,8 @@ export async function submitQuoteAction(prevState: { success: boolean; quoteNumb
     status: 'pending',
   });
 
+  const adminEmail = 'admin@localhost';
+
   try {
     await sendEmail(
       adminEmail,

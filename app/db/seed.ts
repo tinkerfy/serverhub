@@ -24,8 +24,15 @@ const PRODUCTS = [
     originalPrice: '12000.00',
     stock: 5,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Silver 4110 (12 cores total)', ram: '64GB DDR4 ECC', storage: '6x 900GB 10K SAS', network: 'Dual 1GbE', power: '750W Redundant PSU' }),
-    imageUrls: ['/images/products/dell-poweredge-r740/main.jpg'],
+    imageUrls: [
+      '/images/products/dell-poweredge-r740/main.jpg',
+      '/images/products/dell-poweredge-r740/1.jpg',
+      '/images/products/dell-poweredge-r740/2.jpg',
+      '/images/products/dell-poweredge-r740/3.jpg',
+      '/images/products/dell-poweredge-r740/4.jpg',
+    ],
   },
+  // Dell PowerEdge R740xd (separate product)
   {
     name: 'Dell PowerEdge R740xd',
     brand: 'Dell',
@@ -39,8 +46,16 @@ const PRODUCTS = [
     originalPrice: '15000.00',
     stock: 3,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Gold 6140 (28 cores total)', ram: '128GB DDR4 ECC', storage: '12x 900GB 10K SAS', network: 'Dual 10GbE', power: '1300W Redundant PSU' }),
-    imageUrls: ['/images/products/dell-poweredge-r740xd/main.jpg'],
+    imageUrls: [
+      '/images/products/dell-poweredge-r740xd/main.jpg',
+      '/images/products/dell-poweredge-r740xd/1.jpg',
+      '/images/products/dell-poweredge-r740xd/2.jpg',
+      '/images/products/dell-poweredge-r740xd/3.jpg',
+      '/images/products/dell-poweredge-r740xd/4.jpg',
+      '/images/products/dell-poweredge-r740xd/5.jpg',
+    ],
   },
+  // Dell PowerEdge T440 (separate product)
   {
     name: 'Dell PowerEdge T440',
     brand: 'Dell',
@@ -54,9 +69,14 @@ const PRODUCTS = [
     originalPrice: '7500.00',
     stock: 8,
     specs: JSON.stringify({ cpu: 'Intel Xeon Silver 4114 (10 cores)', ram: '32GB DDR4 ECC', storage: '4x 2TB 7.2K HDD', network: 'Dual 1GbE', power: '350W' }),
-    imageUrls: ['/images/products/dell-poweredge-t440/main.jpg'],
+    imageUrls: [
+      '/images/products/dell-poweredge-t440/main.jpg',
+      '/images/products/dell-poweredge-t440/1.jpg',
+      '/images/products/dell-poweredge-t440/2.jpg',
+      '/images/products/dell-poweredge-t440/3.jpg',
+    ],
   },
-  // HP ProLiant DL380 Gen10
+  // HP ProLiant DL380 Gen10 (separate product)
   {
     name: 'HP ProLiant DL380 Gen10',
     brand: 'HP',
@@ -70,8 +90,17 @@ const PRODUCTS = [
     originalPrice: '16000.00',
     stock: 4,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Gold 6148 (20 cores each)', ram: '128GB DDR4 ECC', storage: '4x 900GB 10K SAS', network: 'Dual 10GbE', power: '750W Platinum PSU' }),
-    imageUrls: ['/images/products/hp-proliant-dl380-gen10/main.jpg'],
+    imageUrls: [
+      '/images/products/hp-proliant-dl380-gen10/main.jpg',
+      '/images/products/hp-proliant-dl380-gen10/1.jpg',
+      '/images/products/hp-proliant-dl380-gen10/2.jpg',
+      '/images/products/hp-proliant-dl380-gen10/3.jpg',
+      '/images/products/hp-proliant-dl380-gen10/4.jpg',
+      '/images/products/hp-proliant-dl380-gen10/5.jpg',
+      '/images/products/hp-proliant-dl380-gen10/6.jpg',
+    ],
   },
+  // HP ProLiant DL380 Gen11 (separate product)
   {
     name: 'HP ProLiant DL380 Gen11',
     brand: 'HP',
@@ -85,8 +114,15 @@ const PRODUCTS = [
     originalPrice: '28000.00',
     stock: 2,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Platinum 8480+ (32 cores each)', ram: '256GB DDR5 ECC', storage: '8x 3.84TB NVMe SSD', network: 'Dual 25GbE', power: '1600W Platinum PSU' }),
-    imageUrls: ['/images/products/hp-proliant-dl380-gen11/main.jpg'],
+    imageUrls: [
+      '/images/products/hp-proliant-dl380-gen11/main.jpg',
+      '/images/products/hp-proliant-dl380-gen11/1.jpg',
+      '/images/products/hp-proliant-dl380-gen11/2.jpg',
+      '/images/products/hp-proliant-dl380-gen11/3.jpg',
+      '/images/products/hp-proliant-dl380-gen11/4.jpg',
+    ],
   },
+  // HP ProLiant ML350 Gen10 Plus (separate product)
   {
     name: 'HP ProLiant ML350 Gen10 Plus',
     brand: 'HP',
@@ -100,9 +136,14 @@ const PRODUCTS = [
     originalPrice: '18000.00',
     stock: 3,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Gold 6248R (24 cores each)', ram: '64GB DDR4 ECC', storage: '4x 1.92TB SAS SSD', network: 'Dual 10GbE', power: '800W Redundant PSU' }),
-    imageUrls: ['/images/products/hp-proliant-ml350-gen10/main.jpg'],
+    imageUrls: [
+      '/images/products/hp-proliant-ml350-gen10/main.jpg',
+      '/images/products/hp-proliant-ml350-gen10/1.jpg',
+      '/images/products/hp-proliant-ml350-gen10/2.jpg',
+      '/images/products/hp-proliant-ml350-gen10/3.jpg',
+    ],
   },
-  // Lenovo ThinkSystem SR650
+  // Lenovo ThinkSystem SR650 (separate product)
   {
     name: 'Lenovo ThinkSystem SR650',
     brand: 'Lenovo',
@@ -116,8 +157,15 @@ const PRODUCTS = [
     originalPrice: '13500.00',
     stock: 6,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Gold 6150 (18 cores each)', ram: '64GB DDR4 ECC', storage: '4x 900GB 10K SAS', network: 'Dual 1GbE', power: '750W Redundant PSU' }),
-    imageUrls: ['/images/products/lenovo-thinksystem-sr650/main.jpg'],
+    imageUrls: [
+      '/images/products/lenovo-thinksystem-sr650/main.jpg',
+      '/images/products/lenovo-thinksystem-sr650/1.jpg',
+      '/images/products/lenovo-thinksystem-sr650/2.jpg',
+      '/images/products/lenovo-thinksystem-sr650/3.jpg',
+      '/images/products/lenovo-thinksystem-sr650/4.jpg',
+    ],
   },
+  // Lenovo ThinkSystem SR650 V2 (separate product)
   {
     name: 'Lenovo ThinkSystem SR650 V2',
     brand: 'Lenovo',
@@ -131,8 +179,13 @@ const PRODUCTS = [
     originalPrice: '20000.00',
     stock: 3,
     specs: JSON.stringify({ cpu: '2x Intel Xeon Gold 6330 (28 cores each)', ram: '128GB DDR4 ECC', storage: '8x 1.92TB NVMe SSD', network: 'Dual 25GbE', power: '1100W Redundant PSU' }),
-    imageUrls: ['/images/products/lenovo-thinksystem-sr650-v2/main.jpg'],
+    imageUrls: [
+      '/images/products/lenovo-thinksystem-sr650-v2/main.jpg',
+      '/images/products/lenovo-thinksystem-sr650-v2/1.jpg',
+      '/images/products/lenovo-thinksystem-sr650-v2/2.jpg',
+    ],
   },
+  // Lenovo ThinkSystem ST50 (separate product)
   {
     name: 'Lenovo ThinkSystem ST50',
     brand: 'Lenovo',
@@ -146,9 +199,14 @@ const PRODUCTS = [
     originalPrice: '6500.00',
     stock: 10,
     specs: JSON.stringify({ cpu: 'Intel Xeon Silver 4310 (12 cores)', ram: '32GB DDR4 ECC', storage: '4x 4TB 7.2K HDD', network: 'Dual 1GbE', power: '550W' }),
-    imageUrls: ['/images/products/lenovo-thinksystem-st50/main.jpg'],
+    imageUrls: [
+      '/images/products/lenovo-thinksystem-st50/main.jpg',
+      '/images/products/lenovo-thinksystem-st50/1.jpg',
+      '/images/products/lenovo-thinksystem-st50/2.jpg',
+      '/images/products/lenovo-thinksystem-st50/3.jpg',
+    ],
   },
-  // Cisco Nexus Switches
+  // Cisco Nexus 9336C-FX2 (existing)
   {
     name: 'Cisco Nexus 9336C-FX2',
     brand: 'Cisco',
@@ -162,8 +220,15 @@ const PRODUCTS = [
     originalPrice: '22000.00',
     stock: 2,
     specs: JSON.stringify({ ports: '36x 25GbE SFP28 + 12x 100GbE QSFP28', throughput: '1.08 Tbps', memory: '900MB buffer', power: '375W' }),
-    imageUrls: ['/images/products/cisco-nexus-9336/main.jpg'],
+    imageUrls: [
+      '/images/products/cisco-nexus-9336/main.jpg',
+      '/images/products/cisco-nexus-9336/1.jpg',
+      '/images/products/cisco-nexus-9336/2.jpg',
+      '/images/products/cisco-nexus-9336/3.jpg',
+      '/images/products/cisco-nexus-9336/4.jpg',
+    ],
   },
+  // Cisco Catalyst 9300-48P (existing)
   {
     name: 'Cisco Catalyst 9300-48P',
     brand: 'Cisco',
@@ -177,8 +242,14 @@ const PRODUCTS = [
     originalPrice: '15000.00',
     stock: 4,
     specs: JSON.stringify({ ports: '48x PoE+ Gigabit + 4x 40GbE uplinks', throughput: '216 Gbps', poe: '740W PoE budget', power: '400W input' }),
-    imageUrls: ['/images/products/cisco-catalyst-9300/main.jpg'],
+    imageUrls: [
+      '/images/products/cisco-catalyst-9300/main.jpg',
+      '/images/products/cisco-catalyst-9300/1.jpg',
+      '/images/products/cisco-catalyst-9300/2.jpg',
+      '/images/products/cisco-catalyst-9300/3.jpg',
+    ],
   },
+  // Cisco Catalyst 9500-48Y4C (existing)
   {
     name: 'Cisco Catalyst 9500-48Y4C',
     brand: 'Cisco',
@@ -192,8 +263,15 @@ const PRODUCTS = [
     originalPrice: '35000.00',
     stock: 1,
     specs: JSON.stringify({ ports: '48x 25GbE SFP28 + 4x 100GbE QSFP28', throughput: '2.16 Tbps', memory: '1.8GB buffer', power: '600W' }),
-    imageUrls: ['/images/products/cisco-catalyst-9500/main.jpg'],
+    imageUrls: [
+      '/images/products/cisco-catalyst-9500/main.jpg',
+      '/images/products/cisco-catalyst-9500/1.jpg',
+      '/images/products/cisco-catalyst-9500/2.jpg',
+      '/images/products/cisco-catalyst-9500/3.jpg',
+      '/images/products/cisco-catalyst-9500/4.jpg',
+    ],
   },
+  // Cisco Nexus 3548 (new)
   {
     name: 'Cisco Nexus 3548',
     brand: 'Cisco',
@@ -207,9 +285,17 @@ const PRODUCTS = [
     originalPrice: '8000.00',
     stock: 5,
     specs: JSON.stringify({ ports: '48x 1GbE SFP + 4x 10GbE SFP+', throughput: '216 Gbps', fanless: true, power: '100W' }),
-    imageUrls: ['/images/products/cisco-nexus-3548/main.jpg'],
+    imageUrls: [
+      '/images/products/cisco-nexus-3548/main.jpg',
+      '/images/products/cisco-nexus-3548/1.jpg',
+      '/images/products/cisco-nexus-3548/2.jpg',
+      '/images/products/cisco-nexus-3548/3.jpg',
+      '/images/products/cisco-nexus-3548/4.jpg',
+      '/images/products/cisco-nexus-3548/5.jpg',
+      '/images/products/cisco-nexus-3548/6.jpg',
+    ],
   },
-  // NetApp AFF
+  // NetApp AFF A250 (existing)
   {
     name: 'NetApp AFF A250',
     brand: 'NetApp',
@@ -223,8 +309,14 @@ const PRODUCTS = [
     originalPrice: '25000.00',
     stock: 3,
     specs: JSON.stringify({ capacity: 'Up to 128TB raw', form: '2U, 16x 3.5" drive bays', connectivity: '40GbE, 32Gb FC', controller: 'Active/Active' }),
-    imageUrls: ['/images/products/netapp-aff-a250/main.jpg'],
+    imageUrls: [
+      '/images/products/netapp-aff-a250/main.jpg',
+      '/images/products/netapp-aff-a250/1.jpg',
+      '/images/products/netapp-aff-a250/2.jpg',
+      '/images/products/netapp-aff-a250/3.jpg',
+    ],
   },
+  // NetApp AFF A800 (existing)
   {
     name: 'NetApp AFF A800',
     brand: 'NetApp',
@@ -238,8 +330,14 @@ const PRODUCTS = [
     originalPrice: '65000.00',
     stock: 1,
     specs: JSON.stringify({ capacity: 'Up to 512TB raw', form: '4U, 40x 3.5" drive bays', connectivity: '32Gb FC + 100GbE', controller: 'Active/Active, dual' }),
-    imageUrls: ['/images/products/netapp-aff-a800/main.jpg'],
+    imageUrls: [
+      '/images/products/netapp-aff-a800/main.jpg',
+      '/images/products/netapp-aff-a800/1.jpg',
+      '/images/products/netapp-aff-a800/2.jpg',
+      '/images/products/netapp-aff-a800/3.jpg',
+    ],
   },
+  // NetApp E2600 (existing)
   {
     name: 'NetApp E2600',
     brand: 'NetApp',
@@ -253,9 +351,15 @@ const PRODUCTS = [
     originalPrice: '12000.00',
     stock: 2,
     specs: JSON.stringify({ capacity: '36x 2.5" SAS/SATA, expandable', form: '2U, dual-controller', connectivity: '16Gb FC, 16Gb iSCSI', expandable: 'Up to 144 drives' }),
-    imageUrls: ['/images/products/netapp-e2600/main.jpg'],
+    imageUrls: [
+      '/images/products/netapp-e2600/main.jpg',
+      '/images/products/netapp-e2600/1.jpg',
+      '/images/products/netapp-e2600/2.jpg',
+      '/images/products/netapp-e2600/3.jpg',
+      '/images/products/netapp-e2600/4.jpg',
+    ],
   },
-  // HPE MSA
+  // HPE MSA 2060 (existing)
   {
     name: 'HPE MSA 2060',
     brand: 'HPE',
@@ -269,8 +373,14 @@ const PRODUCTS = [
     originalPrice: '20000.00',
     stock: 2,
     specs: JSON.stringify({ capacity: 'Up to 76.8TB raw', form: '2U, 12x 2.5" drive bays', connectivity: '16Gb FC + 10GbE', controller: 'Active/Active' }),
-    imageUrls: ['/images/products/hpe-msa-2060/main.jpg'],
+    imageUrls: [
+      '/images/products/hpe-msa-2060/main.jpg',
+      '/images/products/hpe-msa-2060/1.jpg',
+      '/images/products/hpe-msa-2060/2.jpg',
+      '/images/products/hpe-msa-2060/3.jpg',
+    ],
   },
+  // HPE MSA 2062 (existing)
   {
     name: 'HPE MSA 2062',
     brand: 'HPE',
@@ -284,8 +394,15 @@ const PRODUCTS = [
     originalPrice: '18000.00',
     stock: 3,
     specs: JSON.stringify({ capacity: 'Up to 60TB (flash + HDD)', form: '2U, 12x 2.5" + 4x 3.5"', connectivity: '16Gb FC + 10GbE', controller: 'Active/Active' }),
-    imageUrls: ['/images/products/hpe-msa-2062/main.jpg'],
+    imageUrls: [
+      '/images/products/hpe-msa-2062/main.jpg',
+      '/images/products/hpe-msa-2062/1.jpg',
+      '/images/products/hpe-msa-2062/2.jpg',
+      '/images/products/hpe-msa-2062/3.jpg',
+      '/images/products/hpe-msa-2062/4.jpg',
+    ],
   },
+  // HPE MSA P2000 (existing)
   {
     name: 'HPE MSA P2000',
     brand: 'HPE',
@@ -299,54 +416,15 @@ const PRODUCTS = [
     originalPrice: '8000.00',
     stock: 4,
     specs: JSON.stringify({ capacity: '8x 900GB 10K SAS', form: '2U', connectivity: '8Gb FC + 1GbE', controller: 'Active/Active' }),
-    imageUrls: ['/images/products/hpe-msa-p2000/main.jpg'],
+    imageUrls: [
+      '/images/products/hpe-msa-p2000/main.jpg',
+      '/images/products/hpe-msa-p2000/1.jpg',
+      '/images/products/hpe-msa-p2000/2.jpg',
+      '/images/products/hpe-msa-p2000/3.jpg',
+      '/images/products/hpe-msa-p2000/4.jpg',
+    ],
   },
-  // Components
-  {
-    name: 'Intel Xeon Gold 6248R',
-    brand: 'Intel',
-    model: 'Xeon Gold 6248R',
-    categoryId: 4,
-    description: '24-core 2.4GHz Cascade Lake processor. 33MB cache, 205W TDP. Compatible with Dell R740, HP DL380 Gen10.',
-    condition: 'like-new' as const,
-    sku: 'INTEL-6248R-001',
-    price: '1800.00',
-    cost: '1100.00',
-    originalPrice: '4800.00',
-    stock: 20,
-    specs: JSON.stringify({ cores: '24 cores / 48 threads', baseClock: '2.4 GHz', turboClock: '3.9 GHz', cache: '33MB L3', tdp: '205W', socket: 'LGA 3647' }),
-    imageUrls: ['/images/products/intel-xeon-gold-6248r/main.jpg'],
-  },
-  {
-    name: 'Samsung 960PRO 2TB NVMe',
-    brand: 'Samsung',
-    model: '960PRO 2TB',
-    categoryId: 4,
-    description: 'PCIe 3.0 NVMe M.2 SSD. 3,500MB/s read, 2,900MB/s write. Ideal for boot drives and caching.',
-    condition: 'like-new' as const,
-    sku: 'SAM-960PRO-2TB-001',
-    price: '280.00',
-    cost: '160.00',
-    originalPrice: '500.00',
-    stock: 50,
-    specs: JSON.stringify({ capacity: '2TB', form: 'M.2 2280', interface: 'PCIe 3.0 x4 NVMe', readSpeed: '3,500 MB/s', writeSpeed: '2,900 MB/s' }),
-    imageUrls: ['/images/products/samsung-960pro-2tb/main.jpg'],
-  },
-  {
-    name: 'Crucial 32GB DDR4 ECC RDIMM',
-    brand: 'Crucial',
-    model: 'CT4G4DFS8266',
-    categoryId: 4,
-    description: '32GB DDR4-2666 ECC Registered DIMM. Server-grade memory for Dell, HP, and Lenovo servers.',
-    condition: 'like-new' as const,
-    sku: 'CRU-CT4G4DFS-001',
-    price: '180.00',
-    cost: '100.00',
-    originalPrice: '350.00',
-    stock: 100,
-    specs: JSON.stringify({ capacity: '32GB', type: 'DDR4-2666 ECC RDIMM', form: '288-pin DIMM', voltage: '1.2V', rank: 'Dual Rank' }),
-    imageUrls: ['/images/products/crucial-32gb-ddr4/main.jpg'],
-  },
+  // Broadcom MegaRAID 9361-8i (new)
   {
     name: 'Broadcom MegaRAID 9361-8i',
     brand: 'Broadcom',
@@ -360,8 +438,76 @@ const PRODUCTS = [
     originalPrice: '1200.00',
     stock: 15,
     specs: JSON.stringify({ ports: '8x SFF-8643 SAS3', interface: 'PCIe 3.0 x8', cache: '2GB DDR3', raidLevels: '0, 1, 5, 6, 10, 50, 60', battery: 'VRM module included' }),
-    imageUrls: ['/images/products/broadcom-megaraid-9361/main.jpg'],
+    imageUrls: [
+      '/images/products/broadcom-megaraid-9361/main.jpg',
+      '/images/products/broadcom-megaraid-9361/1.jpg',
+      '/images/products/broadcom-megaraid-9361/2.jpg',
+      '/images/products/broadcom-megaraid-9361/3.jpg',
+    ],
   },
+  // Intel Xeon Gold 6248R (existing)
+  {
+    name: 'Intel Xeon Gold 6248R',
+    brand: 'Intel',
+    model: 'Xeon Gold 6248R',
+    categoryId: 4,
+    description: '24-core 2.4GHz Cascade Lake processor. 33MB cache, 205W TDP. Compatible with Dell R740, HP DL380 Gen10.',
+    condition: 'like-new' as const,
+    sku: 'INTEL-6248R-001',
+    price: '1800.00',
+    cost: '1100.00',
+    originalPrice: '4800.00',
+    stock: 20,
+    specs: JSON.stringify({ cores: '24 cores / 48 threads', baseClock: '2.4 GHz', turboClock: '3.9 GHz', cache: '33MB L3', tdp: '205W', socket: 'LGA 3647' }),
+    imageUrls: [
+      '/images/products/intel-xeon-gold-6248r/main.jpg',
+      '/images/products/intel-xeon-gold-6248r/1.jpg',
+      '/images/products/intel-xeon-gold-6248r/2.jpg',
+      '/images/products/intel-xeon-gold-6248r/3.jpg',
+    ],
+  },
+  // Samsung 960PRO 2TB NVMe (existing)
+  {
+    name: 'Samsung 960PRO 2TB NVMe',
+    brand: 'Samsung',
+    model: '960PRO 2TB',
+    categoryId: 4,
+    description: 'PCIe 3.0 NVMe M.2 SSD. 3,500MB/s read, 2,900MB/s write. Ideal for boot drives and caching.',
+    condition: 'like-new' as const,
+    sku: 'SAM-960PRO-2TB-001',
+    price: '280.00',
+    cost: '160.00',
+    originalPrice: '500.00',
+    stock: 50,
+    specs: JSON.stringify({ capacity: '2TB', form: 'M.2 2280', interface: 'PCIe 3.0 x4 NVMe', readSpeed: '3,500 MB/s', writeSpeed: '2,900 MB/s' }),
+    imageUrls: [
+      '/images/products/samsung-960pro-2tb/main.jpg',
+      '/images/products/samsung-960pro-2tb/1.jpg',
+      '/images/products/samsung-960pro-2tb/2.jpg',
+    ],
+  },
+  // Crucial 32GB DDR4 ECC RDIMM (existing)
+  {
+    name: 'Crucial 32GB DDR4 ECC RDIMM',
+    brand: 'Crucial',
+    model: 'CT4G4DFS8266',
+    categoryId: 4,
+    description: '32GB DDR4-2666 ECC Registered DIMM. Server-grade memory for Dell, HP, and Lenovo servers.',
+    condition: 'like-new' as const,
+    sku: 'CRU-CT4G4DFS-001',
+    price: '180.00',
+    cost: '100.00',
+    originalPrice: '350.00',
+    stock: 100,
+    specs: JSON.stringify({ capacity: '32GB', type: 'DDR4-2666 ECC RDIMM', form: '288-pin DIMM', voltage: '1.2V', rank: 'Dual Rank' }),
+    imageUrls: [
+      '/images/products/crucial-32gb-ddr4/main.jpg',
+      '/images/products/crucial-32gb-ddr4/1.jpg',
+      '/images/products/crucial-32gb-ddr4/2.jpg',
+      '/images/products/crucial-32gb-ddr4/3.jpg',
+    ],
+  },
+  // Seagate 1.92TB SAS SSD (new)
   {
     name: 'Seagate 1.92TB SAS SSD',
     brand: 'Seagate',
@@ -375,7 +521,11 @@ const PRODUCTS = [
     originalPrice: '800.00',
     stock: 30,
     specs: JSON.stringify({ capacity: '1.92TB', form: '2.5" SFF SAS', interface: 'SAS3 6Gb/s', readSpeed: '650 MB/s', writeSpeed: '390 MB/s', endurance: '1.5 DWPD' }),
-    imageUrls: ['/images/products/seagate-1.92tb-sas/main.jpg'],
+    imageUrls: [
+      '/images/products/seagate-1.92tb-sas/main.jpg',
+      '/images/products/seagate-1.92tb-sas/1.jpg',
+      '/images/products/seagate-1.92tb-sas/2.jpg',
+    ],
   },
 ];
 

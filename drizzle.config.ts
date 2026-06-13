@@ -5,10 +5,11 @@ export default defineConfig({
   schema: './app/db/schema.ts',
   out: './app/db/migrations',
   dbCredentials: {
-    host: '192.168.10.44',
+    host: 'localhost',
     user: 'postgres',
-    password: 'postgres',
+    password: 'postgress',
     database: 'serverhub',
     port: 5432,
+    ssl: { rejectUnauthorized: false },
   },
 });

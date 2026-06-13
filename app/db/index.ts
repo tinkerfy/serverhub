@@ -3,9 +3,9 @@ import { Pool } from 'pg';
 import * as schema from './schema';
 
 const pool = new Pool({
-  host: '192.168.10.44',
+  host: 'localhost',
   user: 'postgres',
-  password: 'postgres',
+  password: 'postgress',
   database: 'serverhub',
   port: 5432,
 });
