@@ -137,6 +137,7 @@ Implement a complete, production-grade Light/Dark theme system across all 23 pag
 | 13 | Quote Request System | Complete | - |
 | 14 | Philippine Barangay Data | Complete | - |
 | 15 | Philippine Address Information Module | In Progress | [phase15.md](./phase15.md) |
+| 16 | Admin Theme & Header Fixes | Complete | - |
 
 ## Phase 13: Quote Request System - COMPLETE
 
@@ -426,6 +427,37 @@ Design and implement a Philippines-only Address Information module supporting va
 - Phase 15.6 (Admin Management): **Pending**
 - Phase 15.7 (Testing): **Pending**
 - Phase 15.8 (Deployment): **Pending**
+
+## Phase 16: Admin Theme & Header Fixes - COMPLETE
+
+### Objective
+Fix light-mode visibility issues in the Admin page header and sidebar by replacing hardcoded colors with semantic CSS variables, and reposition the header ServerHub logo/clear the nav links when on admin pages.
+
+### Modified Files
+| File | Change |
+|------|--------|
+| `app/components/Header.tsx` | Added `isAdminRoute = pathname.startsWith('/admin')` — hides nav links when on admin pages, centers ServerHub logo using 3-zone flexbox layout (left zone, center zone, right zone), mobile menu centered logo for admin |
+| `app/admin/layout.tsx` | Converted all hardcoded grays/blues to semantic CSS variables: `text-card-foreground`, `text-muted-foreground`, `bg-info-background`, `text-info-foreground`, `hover:text-foreground`, `hover:bg-muted` |
+
+### Before → After (Admin Sidebar)
+| Before | After |
+|--------|-------|
+| Active nav: `bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300` | `bg-info-background text-info-foreground` |
+| Inactive nav: `text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white` | `text-muted-foreground hover:bg-muted hover:text-foreground` |
+| Collapse button: `text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white` | `text-muted-foreground hover:text-foreground hover:bg-muted` |
+| Header title: `text-gray-900 dark:text-white` | `text-card-foreground` |
+| Header email: `text-gray-500 dark:text-gray-400` | `text-muted-foreground` |
+
+### Before → After (Header on admin pages)
+| Change |
+|--------|
+| Nav links (Home, Inventory, Quote, Orders, About, Contact) hidden when `isAdminRoute` is true |
+| ServerHub logo and text centered using 3-zone flexbox layout (left zone invisible in admin, centered in center zone, right zone for ThemeToggle/Cart/User) |
+
+### Status
+- **Header**: Done — ServerHub centered, nav links hidden in admin
+- **Sidebar**: Done — all hardcoded colors converted to semantic variables
+- **Build verified**: `npm run build` passes (23 routes)
 
 ## Current State
 All phases complete. 23 routes built and verified:

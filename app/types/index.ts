@@ -14,6 +14,8 @@ export type NewReview = typeof import('../db/schema').reviews.$inferInsert;
 export type Address = typeof import('../db/schema').addresses.$inferSelect;
 export type NewAddress = typeof import('../db/schema').addresses.$inferInsert;
 export type Category = typeof import('../db/schema').categories.$inferSelect;
+export type Quote = typeof import('../db/schema').quotes.$inferSelect;
+export type NewQuote = typeof import('../db/schema').quotes.$inferInsert;
 
 // Frontend types (React state, UI)
 export interface CartItemFrontend {

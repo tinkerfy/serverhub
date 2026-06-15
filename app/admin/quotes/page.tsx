@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useActionState } from 'react';
+import { useState, useEffect } from 'react';
 import { getQuotes, getQuoteById, updateQuoteStatus, sendQuoteToCustomer } from '@/app/actions/admin/quotes';
 
 const STATUS_OPTIONS = [
-  { value: 'pending', label: 'Pending', color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' },
-  { value: 'quoted', label: 'Quoted', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' },
-  { value: 'converted', label: 'Converted', color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' },
-  { value: 'expired', label: 'Expired', color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300' },
+  { value: 'pending', label: 'Pending', color: 'bg-warning-background text-warning-foreground' },
+  { value: 'quoted', label: 'Quoted', color: 'bg-info-background text-info-foreground' },
+  { value: 'converted', label: 'Converted', color: 'bg-success-background text-success-foreground' },
+  { value: 'expired', label: 'Expired', color: 'bg-error-background text-error-foreground' },
 ];
 
 const STATUS_FILTERS = [
@@ -23,6 +23,7 @@ export default function AdminQuotesPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [search, setSearch] = useState('');
   const [selectedQuote, setSelectedQuote] = useState<any>(null);
+  const [modalStatus, setModalStatus] = useState('');
   const [finalPrice, setFinalPrice] = useState('');
   const [adminNotes, setAdminNotes] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -48,6 +49,8 @@ export default function AdminQuotesPage() {
     loadQuotes();
   };
 
+  useEffect(() => { loadQuotes(); }, [page, statusFilter]);
+
   const handleStatusChange = async (quoteId: number, newStatus: string) => {
     await updateQuoteStatus(quoteId, { status: newStatus });
     loadQuotes();
@@ -58,6 +61,7 @@ export default function AdminQuotesPage() {
   const handleViewDetails = async (quoteId: number) => {
     const quote = await getQuoteById(quoteId);
     setSelectedQuote(quote);
+    setModalStatus(quote.status);
     setFinalPrice(quote.finalPrice || '');
     setAdminNotes(quote.adminNotes || '');
     setShowModal(true);
@@ -68,11 +72,12 @@ export default function AdminQuotesPage() {
       await updateQuoteStatus(selectedQuote.id, {
         finalPrice: finalPrice || undefined,
         adminNotes: adminNotes || undefined,
-        status: selectedQuote.status,
+        status: modalStatus,
       });
       setSuccessMessage('Quote details updated');
       setTimeout(() => setSuccessMessage(''), 3000);
       loadQuotes();
+      setShowModal(false);
     }
   };
 
@@ -92,17 +97,17 @@ export default function AdminQuotesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pt-20">
+    <div className="min-h-screen bg-background pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Quote Requests</h1>
-            <p className="text-gray-400">Manage and respond to customer quote requests</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Quote Requests</h1>
+            <p className="text-muted-foreground">Manage and respond to customer quote requests</p>
           </div>
           <button
             onClick={loadQuotes}
-            className="mt-4 sm:mt-0 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+            className="mt-4 sm:mt-0 px-4 py-2 bg-primary hover:bg-primary-dark text-primary-foreground rounded-lg transition-colors font-medium"
           >
             Refresh
           </button>
@@ -110,13 +115,13 @@ export default function AdminQuotesPage() {
 
         {/* Success Message */}
         {successMessage && (
-          <div className="mb-6 p-4 bg-green-900/30 border border-green-700 rounded-lg text-green-200">
+          <div className="mb-6 p-4 bg-success/20 border border-border rounded-lg text-success">
             {successMessage}
           </div>
         )}
 
         {/* Filters */}
-        <div className="bg-gray-900/50 rounded-lg p-4 mb-6 flex flex-col sm:flex-row gap-4">
+        <div className="bg-card rounded-lg p-4 mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <input
               type="text"
@@ -124,7 +129,7 @@ export default function AdminQuotesPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 bg-muted border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -134,8 +139,8 @@ export default function AdminQuotesPage() {
                 onClick={() => { setStatusFilter(filter.value); setPage(1); }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   statusFilter === filter.value
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }`}
               >
                 {filter.label}
@@ -145,12 +150,12 @@ export default function AdminQuotesPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-gray-900/50 rounded-lg overflow-hidden">
+        <div className="bg-card rounded-lg overflow-hidden">
           {loading ? (
-            <div className="p-12 text-center text-gray-400">Loading...</div>
+            <div className="p-12 text-center text-muted-foreground">Loading...</div>
           ) : !quotesData?.quotes?.length ? (
-            <div className="p-12 text-center text-gray-400">
-              <svg className="w-16 h-16 mx-auto mb-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="p-12 text-center text-muted-foreground">
+              <svg className="w-16 h-16 mx-auto mb-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               <p className="text-lg font-medium">No quote requests found</p>
@@ -160,42 +165,42 @@ export default function AdminQuotesPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-800">
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Quote #</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Customer</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Category</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Interest</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Qty</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Budget</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Status</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Date</th>
-                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-400">Actions</th>
+                  <tr className="border-b border-border">
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Quote #</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Customer</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Category</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Interest</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Qty</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Budget</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Status</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Date</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {quotesData.quotes.map((quote: any) => {
                     const statusColor = STATUS_OPTIONS.find(s => s.value === quote.status)?.color || '';
                     return (
-                      <tr key={quote.id} className="border-b border-gray-800 hover:bg-gray-800/30 transition-colors">
+                      <tr key={quote.id} className="border-b border-border hover:bg-muted/50 transition-colors">
                         <td className="px-4 py-4">
-                          <span className="font-mono text-sm text-blue-400">{quote.quoteNumber}</span>
+                          <span className="font-mono text-sm text-primary">{quote.quoteNumber}</span>
                         </td>
                         <td className="px-4 py-4">
-                          <div className="font-medium text-white text-sm">{quote.firstName} {quote.lastName}</div>
-                          <div className="text-xs text-gray-400">{quote.email}</div>
-                          {quote.company && <div className="text-xs text-gray-500">{quote.company}</div>}
+                          <div className="font-medium text-foreground text-sm">{quote.firstName} {quote.lastName}</div>
+                          <div className="text-xs text-muted-foreground">{quote.email}</div>
+                          {quote.company && <div className="text-xs text-muted-foreground">{quote.company}</div>}
                         </td>
                         <td className="px-4 py-4">
-                          <span className="text-sm text-gray-300 capitalize">{quote.category}</span>
+                          <span className="text-sm text-foreground capitalize">{quote.category}</span>
                         </td>
                         <td className="px-4 py-4">
-                          <span className="text-sm text-gray-300 truncate max-w-[150px] block">{quote.specificInterest || '—'}</span>
+                          <span className="text-sm text-foreground truncate max-w-[150px] block">{quote.specificInterest || '—'}</span>
                         </td>
                         <td className="px-4 py-4">
-                          <span className="text-sm text-gray-300">{quote.quantity}</span>
+                          <span className="text-sm text-foreground">{quote.quantity}</span>
                         </td>
                         <td className="px-4 py-4">
-                          <span className="text-sm text-gray-300">{quote.budgetRange || '—'}</span>
+                          <span className="text-sm text-foreground">{quote.budgetRange || '—'}</span>
                         </td>
                         <td className="px-4 py-4">
                           <select
@@ -209,13 +214,13 @@ export default function AdminQuotesPage() {
                           </select>
                         </td>
                         <td className="px-4 py-4">
-                          <span className="text-sm text-gray-400">{new Date(quote.createdAt).toLocaleDateString()}</span>
+                          <span className="text-sm text-muted-foreground">{new Date(quote.createdAt).toLocaleDateString()}</span>
                         </td>
                         <td className="px-4 py-4">
                           <div className="flex gap-2">
                             <button
                               onClick={() => handleViewDetails(quote.id)}
-                              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-medium transition-colors"
+                              className="px-3 py-1.5 bg-primary hover:bg-primary-dark text-primary-foreground rounded text-xs font-medium transition-colors"
                             >
                               View
                             </button>
@@ -231,15 +236,15 @@ export default function AdminQuotesPage() {
 
           {/* Pagination */}
           {quotesData?.totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-4 border-t border-gray-800">
-              <p className="text-sm text-gray-400">
+            <div className="flex items-center justify-between px-4 py-4 border-t border-border">
+              <p className="text-sm text-muted-foreground">
                 Showing {(page - 1) * 15 + 1}–{Math.min(page * 15, quotesData.total)} of {quotesData.total}
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-white rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 text-foreground rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Previous
                 </button>
@@ -260,8 +265,8 @@ export default function AdminQuotesPage() {
                       onClick={() => setPage(pageNum)}
                       className={`w-8 h-8 rounded text-sm font-medium transition-colors ${
                         page === pageNum
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted text-muted-foreground hover:bg-muted/80'
                       }`}
                     >
                       {pageNum}
@@ -271,7 +276,7 @@ export default function AdminQuotesPage() {
                 <button
                   onClick={() => setPage(p => Math.min(quotesData.totalPages, p + 1))}
                   disabled={page === quotesData.totalPages}
-                  className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-white rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 text-foreground rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Next
                 </button>
@@ -283,17 +288,17 @@ export default function AdminQuotesPage() {
 
       {/* Detail Modal */}
       {showModal && selectedQuote && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
-          <div className="bg-gray-900 rounded-xl shadow-2xl border border-gray-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-card rounded-xl shadow-2xl border border-border w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-800">
+            <div className="flex items-center justify-between p-6 border-b border-border">
               <div>
-                <h2 className="text-xl font-bold text-white">Quote Details</h2>
-                <p className="text-sm text-gray-400 mt-1">{selectedQuote.quoteNumber}</p>
+                <h2 className="text-xl font-bold text-foreground">Quote Details</h2>
+                <p className="text-sm text-muted-foreground mt-1">{selectedQuote.quoteNumber}</p>
               </div>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-2 text-gray-400 hover:text-white transition-colors"
+                className="p-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -304,81 +309,81 @@ export default function AdminQuotesPage() {
             {/* Modal Body */}
             <div className="p-6 space-y-6">
               {/* Customer Info */}
-              <div className="bg-gray-800/50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-gray-400 mb-3">Customer Information</h3>
+              <div className="bg-muted rounded-lg p-4">
+                <h3 className="text-sm font-medium text-muted-foreground mb-3">Customer Information</h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-xs text-gray-500">Name</span>
-                    <p className="text-white font-medium">{selectedQuote.firstName} {selectedQuote.lastName}</p>
+                    <span className="text-xs text-muted-foreground">Name</span>
+                    <p className="text-foreground font-medium">{selectedQuote.firstName} {selectedQuote.lastName}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Email</span>
-                    <p className="text-white font-medium">{selectedQuote.email}</p>
+                    <span className="text-xs text-muted-foreground">Email</span>
+                    <p className="text-foreground font-medium">{selectedQuote.email}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Phone</span>
-                    <p className="text-white font-medium">{selectedQuote.phone || '—'}</p>
+                    <span className="text-xs text-muted-foreground">Phone</span>
+                    <p className="text-foreground font-medium">{selectedQuote.phone || '—'}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Company</span>
-                    <p className="text-white font-medium">{selectedQuote.company || '—'}</p>
+                    <span className="text-xs text-muted-foreground">Company</span>
+                    <p className="text-foreground font-medium">{selectedQuote.company || '—'}</p>
                   </div>
                 </div>
               </div>
 
               {/* Quote Details */}
-              <div className="bg-gray-800/50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-gray-400 mb-3">Quote Details</h3>
+              <div className="bg-muted rounded-lg p-4">
+                <h3 className="text-sm font-medium text-muted-foreground mb-3">Quote Details</h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-xs text-gray-500">Category</span>
-                    <p className="text-white font-medium capitalize">{selectedQuote.category}</p>
+                    <span className="text-xs text-muted-foreground">Category</span>
+                    <p className="text-foreground font-medium capitalize">{selectedQuote.category}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Quantity</span>
-                    <p className="text-white font-medium">{selectedQuote.quantity}</p>
+                    <span className="text-xs text-muted-foreground">Quantity</span>
+                    <p className="text-foreground font-medium">{selectedQuote.quantity}</p>
                   </div>
                   <div className="col-span-2">
-                    <span className="text-xs text-gray-500">Specific Interest</span>
-                    <p className="text-white font-medium">{selectedQuote.specificInterest || '—'}</p>
+                    <span className="text-xs text-muted-foreground">Specific Interest</span>
+                    <p className="text-foreground font-medium">{selectedQuote.specificInterest || '—'}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Budget Range</span>
-                    <p className="text-white font-medium">{selectedQuote.budgetRange || '—'}</p>
+                    <span className="text-xs text-muted-foreground">Budget Range</span>
+                    <p className="text-foreground font-medium">{selectedQuote.budgetRange || '—'}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Status</span>
-                    <p className="text-white font-medium capitalize">{selectedQuote.status}</p>
+                    <span className="text-xs text-muted-foreground">Status</span>
+                    <p className="text-foreground font-medium capitalize">{selectedQuote.status}</p>
                   </div>
                   <div className="col-span-2">
-                    <span className="text-xs text-gray-500">Customer Message</span>
-                    <p className="text-white whitespace-pre-wrap">{selectedQuote.message || '—'}</p>
+                    <span className="text-xs text-muted-foreground">Customer Message</span>
+                    <p className="text-foreground whitespace-pre-wrap">{selectedQuote.message || '—'}</p>
                   </div>
                 </div>
               </div>
 
               {/* Admin Fields */}
-              <div className="bg-gray-800/50 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-gray-400 mb-3">Admin Response</h3>
+              <div className="bg-muted rounded-lg p-4">
+                <h3 className="text-sm font-medium text-muted-foreground mb-3">Admin Response</h3>
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">Final Price (₱)</label>
+                    <label className="block text-xs text-muted-foreground mb-1">Final Price (₱)</label>
                     <input
                       type="number"
                       value={finalPrice}
                       onChange={(e) => setFinalPrice(e.target.value)}
                       placeholder="Enter final price"
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 bg-background border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-500 mb-1">Admin Notes</label>
+                    <label className="block text-xs text-muted-foreground mb-1">Admin Notes</label>
                     <textarea
                       value={adminNotes}
                       onChange={(e) => setAdminNotes(e.target.value)}
                       placeholder="Internal notes..."
                       rows={3}
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 bg-background border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                   </div>
                 </div>
@@ -386,12 +391,12 @@ export default function AdminQuotesPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-between p-6 border-t border-gray-800">
+            <div className="flex items-center justify-between p-6 border-t border-border">
               <div className="flex gap-2">
                 <select
-                  value={selectedQuote.status}
-                  onChange={(e) => handleStatusChange(selectedQuote.id, e.target.value)}
-                  className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm"
+                  value={modalStatus}
+                  onChange={(e) => setModalStatus(e.target.value)}
+                  className="px-3 py-2 bg-muted border-border rounded-lg text-foreground text-sm"
                 >
                   {STATUS_OPTIONS.map((s) => (
                     <option key={s.value} value={s.value}>{s.label}</option>
@@ -401,20 +406,20 @@ export default function AdminQuotesPage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors font-medium"
+                  className="px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded-lg transition-colors font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveDetails}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+                  className="px-4 py-2 bg-primary hover:bg-primary-dark text-primary-foreground rounded-lg transition-colors font-medium"
                 >
                   Save
                 </button>
                 <button
                   onClick={() => handleSendQuote(selectedQuote.id)}
                   disabled={sendingQuote === selectedQuote.id}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium disabled:opacity-50"
+                  className="px-4 py-2 bg-success hover:bg-success/90 text-primary-foreground rounded-lg transition-colors font-medium disabled:opacity-50"
                 >
                   {sendingQuote === selectedQuote.id ? 'Sending...' : 'Send Quote'}
                 </button>

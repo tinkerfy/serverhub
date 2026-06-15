@@ -440,6 +440,22 @@ npm run db:studio     # Open Drizzle Studio (DB viewer)
 - **Phase 15.7 (Testing)**: PENDING
 - **Phase 15.8 (Deployment)**: PENDING
 
+### Phase 16: Admin Theme & Header Fixes (COMPLETE)
+- **Admin Header**: ServerHub logo and text centered when on `/admin/*` routes using flexbox centering (no absolute positioning)
+  - Header component (`app/components/Header.tsx`) now uses `isAdminRoute = pathname.startsWith('/admin')` to conditionally position the logo as centered (via 3-zone layout: left zone, center zone, right zone)
+  - Navigation link items (Home, Inventory, Quote, Orders, About, Contact) hidden when `isAdminRoute` is true
+  - Mobile hamburger menu: ServerHub logo shown centered when `isAdminRoute`
+
+- **Admin Sidebar**: All hardcoded colors converted to semantic CSS variables from `globals.css`
+  - Nav link active state: `bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300` → `bg-info-background text-info-foreground`
+  - Inactive text: `text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700` → `text-muted-foreground hover:bg-muted hover:text-foreground`
+  - Collapse button: `text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white` → `text-muted-foreground hover:text-foreground hover:bg-muted`
+  - Header title: `text-gray-900 dark:text-white` → `text-card-foreground`
+  - Header email: `text-gray-500 dark:text-gray-400` → `text-muted-foreground`
+  - Sidebar link (View Site): Same conversion as nav links above
+  - **Modified files**: `app/components/Header.tsx`, `app/admin/layout.tsx`
+  - **Build verified**: `npm run build` passes (23 routes)
+
 ## Known Issues
 - Update MEMORY and PLAN files when context length reaches 80% of maximum
 - Always keep `memory/MEMORY.md` and `plans/PLAN.md` in sync with current project state

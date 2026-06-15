@@ -38,11 +38,17 @@ export default function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
+  const isAdminRoute = pathname.startsWith('/admin');
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-shadow duration-200 ${scrolled ? 'bg-background/95 backdrop-blur-sm shadow-md' : 'bg-background'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
+          {/* Left zone */}
+          <Link
+            href="/"
+            className={`flex items-center gap-2 shrink-0 ${isAdminRoute ? 'invisible' : ''}`}
+          >
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
@@ -53,22 +59,48 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={link.href === '/orders' ? (e) => { e.preventDefault(); window.location.href = '/orders'; } : undefined}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  pathname === link.href
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-foreground hover:bg-muted'
-                }`}
-              >
-                {link.label}
+          {/* Center zone */}
+          {isAdminRoute ? (
+            <Link href="/" className="flex items-center gap-2 shrink-0">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                </svg>
+              </div>
+              <span className="text-xl font-bold text-foreground">
+                Server<span className="text-primary">Hub</span>
+              </span>
+            </Link>
+          ) : (
+            <>
+              <Link href="/" className="flex items-center gap-2 shrink-0">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                  </svg>
+                </div>
+                <span className="text-xl font-bold text-foreground">
+                  Server<span className="text-primary">Hub</span>
+                </span>
               </Link>
-            ))}
-          </nav>
+              <nav className="hidden md:flex items-center gap-1">
+                {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={link.href === '/orders' ? (e) => { e.preventDefault(); window.location.href = '/orders'; } : undefined}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    pathname === link.href
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-foreground hover:bg-muted'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+                ))}
+              </nav>
+            </>
+          )}
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -116,32 +148,53 @@ export default function Header() {
         {mobileOpen && (
           <nav className="md:hidden pb-4 border-t border-border mt-2 pt-4">
             <div className="flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    pathname === link.href
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-foreground hover:bg-muted'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {!isAdminRoute && (
+                <>
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                        pathname === link.href
+                          ? 'bg-primary/10 text-primary'
+                          : 'text-foreground hover:bg-muted'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </>
+              )}
               {isAuthenticated ? (
                 <Link href="/orders" onClick={(e) => { e.preventDefault(); window.location.href = '/orders'; }} className="px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted rounded-lg transition-colors">
                   My Orders
                 </Link>
               ) : (
-                <div className="flex gap-2 px-4 pt-2">
-                  <Link href="/login" className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-foreground border border-border rounded-lg hover:bg-muted transition-colors">
-                    Sign In
-                  </Link>
-                  <Link href="/register" className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors">
-                    Sign Up
-                  </Link>
-                </div>
+                <>
+                  {isAdminRoute && (
+                    <Link
+                      href="/"
+                      className="flex items-center gap-2 justify-center py-3"
+                    >
+                      <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                        </svg>
+                      </div>
+                      <span className="text-lg font-bold text-foreground">
+                        Server<span className="text-primary">Hub</span>
+                      </span>
+                    </Link>
+                  )}
+                  <div className="flex gap-2 px-4 pt-2">
+                    <Link href="/login" className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-foreground border border-border rounded-lg hover:bg-muted transition-colors">
+                      Sign In
+                    </Link>
+                    <Link href="/register" className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors">
+                      Sign Up
+                    </Link>
+                  </div>
+                </>
               )}
             </div>
           </nav>
