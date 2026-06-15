@@ -66,26 +66,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('next-themes/theme');
-                  if (!theme) {
-                    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    theme = prefersDark ? 'dark' : 'light';
-                  }
-                  document.documentElement.className = theme === 'dark' ? 'dark' : '';
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
       </head>
-      <body className="min-h-full flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <body className="min-h-full flex flex-col bg-background transition-colors duration-200">
         <ErrorBoundary>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ThemeProvider>
             <AuthProvider>
               <CartProvider>
                 <Header />

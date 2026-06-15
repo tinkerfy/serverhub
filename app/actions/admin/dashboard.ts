@@ -246,3 +246,12 @@ export async function updateOrderStatus(id: number, status: 'pending' | 'process
     .returning();
   return order;
 }
+
+export async function updatePaymentStatus(id: number, paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded') {
+  const [order] = await db
+    .update(orders)
+    .set({ paymentStatus, updatedAt: new Date() })
+    .where(eq(orders.id, id))
+    .returning();
+  return order;
+}

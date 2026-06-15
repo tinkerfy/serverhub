@@ -8,7 +8,7 @@ export default function CartPage() {
 
   if (cart.items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background dark:bg-gray-950 pt-20">
+      <div className="min-h-screen flex items-center justify-center bg-background pt-20">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground mb-4">Your cart is empty</h2>
           <p className="text-muted-foreground mb-8">Looks like you have not added any items to your cart yet.</p>
@@ -24,7 +24,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-950 pt-20 py-12">
+    <div className="min-h-screen bg-background pt-20 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-foreground mb-8">Shopping Cart</h1>
 
@@ -34,7 +34,7 @@ export default function CartPage() {
               <ul className="divide-y divide-border">
                 {cart.items.map((item) => (
                   <li key={item.productId} className="p-6 flex items-center space-x-4">
-                    <div className="flex-shrink-0 w-24 h-24 bg-muted dark:bg-gray-800 rounded-md overflow-hidden">
+                    <div className="flex-shrink-0 w-24 h-24 bg-muted rounded-md overflow-hidden">
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       ) : (

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-950 pt-16">
+    <div className="min-h-screen bg-background pt-16">
       <main className="pt-16">
         <section className="bg-primary text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -34,14 +34,14 @@ export default function AboutPage() {
                   Whether you are building a startup data center or expanding an existing infrastructure, ServerHub delivers the performance you need at a fraction of the retail cost.
                 </p>
               </div>
-              <div className="bg-muted dark:bg-gray-800 h-80 rounded-lg flex items-center justify-center">
+              <div className="bg-muted h-80 rounded-lg flex items-center justify-center">
                 <span className="text-muted-foreground">Company Photo</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-muted dark:bg-gray-800/50 py-16">
+        <section className="bg-muted py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-foreground mb-12 text-center">By the Numbers</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

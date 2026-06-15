@@ -37,7 +37,7 @@ function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link href={`/products/${product.id}`} className="block bg-card text-card-foreground rounded-lg shadow hover:shadow-lg transition-all cursor-pointer overflow-hidden border border-border hover:border-primary/50 hover:-translate-y-1">
-      <div className="relative h-[400px] bg-muted dark:bg-gray-800 rounded-lg overflow-hidden mb-4">
+      <div className="relative h-[400px] bg-muted rounded-lg overflow-hidden mb-4">
         {product.imageUrls && product.imageUrls.length > 0 ? (
           <img
             src={product.imageUrls[0]}

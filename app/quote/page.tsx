@@ -184,7 +184,7 @@ export default function QuotePage() {
                   ))}
                 </div>
 
-                <div className="bg-muted dark:bg-gray-800/50 rounded-lg p-6">
+                <div className="bg-muted rounded-lg p-6">
                   <h4 className="font-medium text-foreground mb-3">Why request a quote?</h4>
                   <ul className="space-y-2 text-muted-foreground text-sm">
                     <li className="flex items-center space-x-2">
@@ -211,7 +211,7 @@ export default function QuotePage() {
         </section>
 
         {/* How It Works */}
-        <section className="bg-muted dark:bg-gray-800/50 py-16">
+        <section className="bg-muted py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-foreground mb-12 text-center">How It Works</h2>
             <div className="grid md:grid-cols-3 gap-8">

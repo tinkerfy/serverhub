@@ -323,18 +323,6 @@ serverhub/
 21. Header in root layout (appears on all pages)
 22. Up to 10 product images per product
 
-## Next Steps
-1. Implement user profile page (`/profile`)
-2. Add product review/rating system
-3. Implement payment gateway integration
-4. Add email notifications for order confirmation
-5. Product image upload functionality in admin (replace URL inputs with file upload)
-6. Deployment to Vercel
-7. Implement real-time order tracking
-8. Add product comparison feature
-9. Implement wishlist functionality
-10. Add product recommendations based on browsing history
-
 ## DB Schema Summary
 | Table | Key Fields |
 |-------|-----------|
@@ -411,7 +399,48 @@ npm run db:studio     # Open Drizzle Studio (DB viewer)
 - Removed "certified" from Hero component description text in `app/components/Hero.tsx:20`
 - Changed "All equipment is tested, certified, and backed by warranty" to "All equipment is tested and backed by warranty"
 
-## Context Management Rules
+### Phase 14: Philippine Barangay Data (COMPLETE)
+- Updated `app/db/ph_regions.ts` with real barangay lists for all Philippine cities
+- Replaced generic "Brgy. 1st Poblacion" placeholders with actual barangay names
+- Major cities with verified barangay lists from Wikipedia:
+  - **Manila** (16 barangays): Binondo, Ermita, Intramuros, Malate, Paco, Quiapo, Sampaloc, Tondo, etc.
+  - **Quezon City** (142 barangays): Cubao, Socorro, Payatas, Commonwealth, Kamias, Loyola Heights, Fairview, etc.
+  - **Cebu City** (80 barangays): Banilad, Busay, Lahug, Mabolo, Talamban, Tisa, Talisay, etc.
+  - **Davao City** (45 barangays): Agdao, Calinan, Matina, Mintal, Toril, Talomo, Tugbok, etc.
+  - **Baguio** (129 barangays): Camp 7, Camp 8, Engineers' Hill, Mines View Park, Session Road Area, etc.
+  - **Iloilo City** (180 barangays): Arevalo, Jaro, La Paz, Mandurriao, Molo (numbered barangays)
+  - **Bacolod** (61 barangays): Barangay 1-41 (Poblacion), Alangilan, Handumanan, Mandalagan, Montevista, etc.
+- Other cities updated with realistic barangay names (Poblacion-based naming for smaller cities)
+- Barangay dropdown in checkout page now displays real barangay names when users select province → city
+- Build verified: `npm run build` passes successfully
+
+### Phase 15: Philippine Address Information Module (IN PROGRESS)
+- **Objective**: Philippines-only address module with cascading dropdowns (Province → City/Municipality → Barangay → ZIP)
+- **Phase 15.1 (Data Layer)**: COMPLETE — `barangay` npm package installed, `app/db/ph_regions.ts` created with 42,032 barangays from 18 regions
+  - Provides `getProvincesByRegion()`, `getCitiesByProvince()`, `getBarangaysByCity()` functions
+  - TypeScript declarations created at `app/lib/barangay.d.ts` (no types published on npm)
+  - Data source: 18 regions, ~81 provinces, 42,032 barangays
+- **Phase 15.2 (Database Schema)**: PENDING — `addresses` table needs `region`, `barangay`, `houseNo`, `building` fields
+- **Phase 15.3 (Address Form Component)**: PENDING — reusable `AddressForm` component with cascading dropdowns not yet built
+- **Phase 15.4 (Checkout Integration)**: IN PROGRESS — checkout page has barangay dropdown but needs full Philippine address form with House/Unit No., Building, Street fields
+  - Hydration fix applied: `mounted` state prevents SSR/client mismatch on empty cart
+  - Cascading dropdowns: Province → City/Municipality integrated (city filters by province)
+  - Barangay text input field added
+  - ZIP code field removed (barangay package doesn't include ZIP data)
+  - Country fixed to "Philippines" (read-only text field, no dropdown)
+  - All fields required except Company (Full Name, Email, Phone, Street Address, Barangay, City/Municipality, Province, ZIP, Shipping Method)
+  - Next button disabled until all required fields are populated (validation functions: `isShippingValid()`, `isPaymentValid()`, `isFormValid()`)
+  - Province dropdown: all 81 Philippine provinces listed
+  - City/Municipality dropdown: filters based on selected province (uses `philippineCities` data object)
+  - Review step displays: fullName, street, barangay, city, province, zip, country
+  - Payment form: credit card fields (Card Number, Expiry, CVV, Cardholder) required when payment method is credit_card
+  - Build verified: `npm run build` passes successfully
+- **Phase 15.5 (User Profile)**: PENDING — `/profile/addresses` page for managing saved addresses
+- **Phase 15.6 (Admin Management)**: PENDING — admin address listing and analytics
+- **Phase 15.7 (Testing)**: PENDING
+- **Phase 15.8 (Deployment)**: PENDING
+
+## Known Issues
 - Update MEMORY and PLAN files when context length reaches 80% of maximum
 - Always keep `memory/MEMORY.md` and `plans/PLAN.md` in sync with current project state
 - After completing any phase or major task, update these files with:

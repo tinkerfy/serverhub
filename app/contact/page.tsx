@@ -118,7 +118,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="bg-muted dark:bg-gray-800/50 py-16">
+        <section className="bg-muted py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
             <div className="max-w-3xl mx-auto space-y-4">

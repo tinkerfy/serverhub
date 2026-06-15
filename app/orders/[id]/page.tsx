@@ -64,7 +64,7 @@ export default async function OrderDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-950 pt-20 pb-12">
+    <div className="min-h-screen bg-background pt-20 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="text-sm text-muted-foreground mb-6">
           <Link href="/" className="hover:text-foreground">Home</Link>

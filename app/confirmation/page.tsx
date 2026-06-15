@@ -35,7 +35,7 @@ export default function ConfirmationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-950 pt-20 py-12">
+    <div className="min-h-screen bg-background pt-20 py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-card text-card-foreground shadow rounded-lg p-8 text-center border border-border">
           <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-success-background mb-6">

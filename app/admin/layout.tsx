@@ -42,9 +42,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} flex flex-col`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 bg-card border-r border-border transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} flex flex-col`}>
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           {sidebarOpen && (
             <Link href="/admin" className="text-xl font-bold text-gray-900 dark:text-white">
@@ -95,7 +95,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main content */}
       <div className={`transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <header className="bg-card border-b border-border px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
               {navItems.find((item) => item.href === pathname)?.label || 'Admin'}
@@ -106,7 +106,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
           </div>
         </header>
-        <main className="p-6 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-5rem)]">
+        <main className="p-6 bg-background min-h-[calc(100vh-5rem)]">
           {children}
         </main>
       </div>

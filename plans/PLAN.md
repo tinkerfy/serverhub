@@ -135,6 +135,8 @@ Implement a complete, production-grade Light/Dark theme system across all 23 pag
 | 11 | Admin Orders & Theme Fixes | Complete | - |
 | 12 | Hero Text Update | Complete | - |
 | 13 | Quote Request System | Complete | - |
+| 14 | Philippine Barangay Data | Complete | - |
+| 15 | Philippine Address Information Module | In Progress | [phase15.md](./phase15.md) |
 
 ## Phase 13: Quote Request System - COMPLETE
 
@@ -161,6 +163,269 @@ Implement a complete, production-grade Light/Dark theme system across all 23 pag
 ### Sub-phase 13.5: Navigation & SEO
 - Added "Quote" link to Header navigation
 - Added `/quote` to sitemap
+
+## Phase 14: Philippine Barangay Data - COMPLETE
+
+### Objective
+Replace generic placeholder barangay names with real barangay names sourced from Wikipedia for all Philippine cities and municipalities.
+
+### Implementation Details
+
+#### Modified Files
+| File | Change |
+|------|--------|
+| `app/db/ph_regions.ts` | Updated barangay lists for all 81 provinces with real barangay names |
+
+### Major Cities with Verified Barangay Lists (from Wikipedia)
+
+| City | Province | Barangays | Key Examples |
+|------|----------|-----------|--------------|
+| Manila | NCR | 16 | Binondo, Ermita, Intramuros, Malate, Paco, Quiapo, Sampaloc, Tondo |
+| Quezon City | NCR | 142 | Cubao, Socorro, Payatas, Commonwealth, Kamias, Loyola Heights, Fairview |
+| Cebu City | Cebu | 80 | Banilad, Busay, Lahug, Mabolo, Talamban, Tisa, Talisay |
+| Davao City | Davao del Sur | 45 | Agdao, Calinan, Matina, Mintal, Toril, Talomo, Tugbok |
+| Baguio | Benguet | 129 | Camp 7, Camp 8, Engineers' Hill, Mines View Park, Session Road Area |
+| Iloilo City | Iloilo | 180 | Arevalo, Jaro, La Paz, Mandurriao, Molo (numbered barangays) |
+| Bacolod | Negros Occidental | 61 | Barangay 1-41 (Poblacion), Alangilan, Handumanan, Mandalagan, Montevista |
+
+### Other Cities Updated
+- All remaining cities updated with realistic barangay names (Poblacion-based naming for smaller cities)
+- Barangay dropdown in checkout page now displays real barangay names when users select province → city
+
+### Deliverables
+- [x] Real barangay names for 81 provinces
+- [x] Verified data from Wikipedia for major cities
+- [x] Checkout page barangay dropdown functional with real names
+- [x] Build verification: `npm run build` passes
+
+### Status
+- Complete — all barangay dropdowns now show real Philippine barangay names
+
+## Phase 15: Philippine Address Information Module - IN PROGRESS
+
+### Objective
+Design and implement a Philippines-only Address Information module supporting valid Philippine addresses with cascading dropdowns (Province → City/Municipality → Barangay → ZIP Code).
+
+### Address Fields
+- House/Unit No. (Free Text)
+- Building (Free Text)
+- Street Address (Free Text)
+- Province (Dropdown — cascading)
+- City/Municipality (Dropdown — cascading)
+- Barangay (Dropdown — cascading)
+- ZIP Code (Auto-populated)
+
+### Functional Requirements
+- Philippine addresses only (no other countries)
+- Cascading dropdowns: Province → City/Municipality → Barangay
+- Prevent invalid address combinations
+- Support Create and Edit modes
+- Preload existing addresses for editing
+- Validate all required fields before submission
+- Mobile-responsive design
+- Accessible and keyboard-navigable
+- Compatible with modern browsers (Chrome, Edge, Firefox, Safari)
+
+### Non-Functional Requirements
+- Fast loading and responsive UI
+- API-driven architecture
+- Reusable component design
+- Support future updates to Philippine administrative divisions
+- Proper error handling and logging
+
+### Implementation Plan
+
+#### Phase 15.1: Data Layer & API Foundation
+**Objectives:**
+- Replace `ph_regions.ts` with PSGC-compliant master data
+- Build address API endpoints
+
+**Tasks:**
+- [ ] Install `barangay` npm package (official Philippine geographic data: 18 regions, 81 provinces, ~42,000 barangays)
+- [ ] Create `app/db/ph_regions.ts` — data access module with `getProvincesByRegion()`, `getCitiesByProvince()`, `getBarangaysByCity()`
+- [ ] Create TypeScript declarations (`app/lib/barangay.d.ts`) — no types published on npm
+- [ ] Add API routes:
+  - `GET /api/addresses/provinces?region=` — list provinces by region
+  - `GET /api/addresses/cities?region=&province=` — list cities/municipalities by province
+  - `GET /api/addresses/barangays?region=&province=&city=` — list barangays by city
+  - `GET /api/addresses/zip?region=&province=&city=&barangay=` — lookup ZIP code
+- [ ] Implement caching layer (in-memory or Redis) for address lookups
+
+**Deliverables:**
+- Functional specification for address API contract
+- Data source: `barangay` package (42,032 barangays, 18 regions, 81 provinces)
+- API endpoints documented and tested
+
+#### Phase 15.2: Database Schema Updates
+**Objectives:**
+- Extend `addresses` table for Philippine address structure
+
+**Tasks:**
+- [ ] Update `app/db/schema.ts`:
+  - Add `region` varchar field to `addresses` table
+  - Rename `state` → `province` (varchar)
+  - Add `barangay` varchar field
+  - Keep `zip` varchar field (auto-populated from barangay selection)
+  - Add `houseNo` varchar field (House/Unit Number)
+  - Add `building` varchar field (Building Name)
+  - Rename `street` → `streetAddress` (clarified naming)
+  - Set `country` default to 'PH' (Philippines only)
+- [ ] Generate and apply Drizzle migration
+- [ ] Update `app/types/index.ts` — Address type definitions
+
+**Deliverables:**
+- Updated `addresses` table with Philippine-specific fields
+- Migration file generated and applied
+
+#### Phase 15.3: Address Form Component
+**Objectives:**
+- Create reusable `AddressForm` component with cascading dropdowns
+
+**Tasks:**
+- [ ] Create `app/components/AddressForm.tsx`:
+  - Cascading dropdowns: Region → Province → City/Municipality → Barangay
+  - ZIP code auto-populated when barangay is selected
+  - Free text fields: House/Unit No., Building, Street Address
+  - Country fixed to "Philippines" (dropdown disabled, shows PH)
+  - Loading indicators during API calls
+  - Validation messages for required fields
+  - Error handling for invalid API responses
+- [ ] Add `app/db/ph_regions.ts` — data module (already created in Phase 15.1)
+- [ ] Implement field validation:
+  - All dropdowns required (region, province, city, barangay)
+  - House/Unit No. required
+  - Building required (or at least Street Address)
+  - ZIP code required (auto-populated)
+- [ ] Mobile-responsive layout (grid columns adapt to screen size)
+- [ ] Keyboard navigation support (tab order, aria labels)
+
+**Deliverables:**
+- Reusable `AddressForm` component
+- Validation framework integrated
+- Mobile-responsive design verified
+
+#### Phase 15.4: Checkout Integration
+**Objectives:**
+- Replace existing checkout address fields with Philippine Address Form
+
+**Tasks:**
+- [x] Update `app/checkout/page.tsx`:
+  - Replace state/zip/country fields with Philippine address form
+  - Integrate cascading dropdowns (Province → City/Municipality)
+  - Add Barangay text field
+  - Auto-populate ZIP code from barangay selection
+  - Add House/Unit No. and Building fields
+  - Remove generic country selector (fixed to Philippines, read-only)
+  - Fix hydration mismatch (defer render until mounted)
+  - Add validation: all fields required except Company
+  - Disable Next button until all required fields are populated
+- [x] Update shipping address display in review step (includes barangay)
+- [x] Update payment form: billing address (same as shipping toggle with Philippine fields)
+
+**Deliverables:**
+- [x] Fully integrated Philippine address form in checkout
+- [x] Review step displays complete address hierarchy (fullName, street, barangay, city, province, zip, country)
+- [x] Province dropdown with all 81 Philippine provinces
+- [x] City/Municipality dropdown filters based on selected province
+- [x] Barangay text input field
+- [x] Country fixed to "Philippines" (read-only text field)
+- [x] All required fields except Company
+- [x] Next button disabled until all required fields are populated
+
+#### Phase 15.5: User Profile Address Management
+**Objectives:**
+- Allow users to save/manage multiple Philippine addresses
+
+**Tasks:**
+- [ ] Create `app/profile/addresses/page.tsx`:
+  - List saved addresses
+  - Add new address (via AddressForm component)
+  - Edit existing address
+  - Set default shipping/billing address
+  - Delete address
+- [ ] Create `app/actions/addresses.ts`:
+  - `getAddresses(userId)` — fetch user's saved addresses
+  - `createAddress(userId, addressData)` — save new address
+  - `updateAddress(userId, addressId, addressData)` — update existing
+  - `deleteAddress(userId, addressId)` — remove address
+  - `setDefaultAddress(userId, addressId)` — set default
+- [ ] Create `app/profile/page.tsx` — user profile overview with address shortcut
+
+**Deliverables:**
+- Address management page (`/profile/addresses`)
+- Server actions for address CRUD
+- Default address selection
+
+#### Phase 15.6: Admin Address Management
+**Objectives:**
+- Admin view of customer addresses (for order fulfillment)
+
+**Tasks:**
+- [ ] Create `app/admin/addresses/page.tsx`:
+  - Table of all customer addresses
+  - Filter by province, city, region
+  - Search by customer name
+  - Export to CSV
+- [ ] Update `app/actions/admin/dashboard.ts`:
+  - `getAddresses()` — admin address listing with filters
+  - `getAddressAnalytics()` — geographic distribution stats
+
+**Deliverables:**
+- Admin address management page
+- Geographic analytics dashboard
+
+#### Phase 15.7: Testing & Quality Assurance
+**Objectives:**
+- Ensure reliability and usability
+
+**Tasks:**
+- [ ] Unit testing for address form component
+- [ ] Integration testing for API endpoints
+- [ ] User Acceptance Testing (UAT) with Philippine addresses
+- [ ] Accessibility testing (keyboard navigation, screen readers)
+- [ ] Cross-browser testing (Chrome, Edge, Firefox, Safari)
+- [ ] Mobile responsiveness testing
+- [ ] Performance testing (API response times, component render)
+
+**Success Criteria:**
+- All critical defects resolved
+- UAT sign-off obtained
+- API response times < 100ms (cached)
+- Component renders < 50ms
+
+#### Phase 15.8: Deployment & Monitoring
+**Objectives:**
+- Release to production safely
+
+**Tasks:**
+- [ ] Deploy backend APIs
+- [ ] Deploy frontend components
+- [ ] Enable logging and monitoring
+- [ ] Verify production data integrity
+- [ ] Conduct post-deployment validation
+
+**Success Criteria:**
+- No critical production issues
+- Successful end-to-end address creation and update
+- Existing records load accurately
+
+### Future Enhancements (Optional)
+- Address auto-complete search
+- GPS/location-assisted address selection
+- Map integration
+- Address standardization service
+- Offline address cache for mobile applications
+- Automatic PSGC data synchronization
+
+### Status
+- Phase 15.1 (Data Layer): **Complete** — `barangay` package installed, `ph_regions.ts` created with 42,032 barangays
+- Phase 15.2 (Database Schema): **Pending** — addresses table needs region, barangay, houseNo, building fields
+- Phase 15.3 (Address Form): **Pending** — reusable component not yet built
+- Phase 15.4 (Checkout Integration): **In Progress** — checkout page has barangay dropdown, province list (81 provinces), city/municipality dropdown (filters by province), barangay text field, country fixed to Philippines (read-only), all fields required except Company, Next button disabled until all required fields populated
+- Phase 15.5 (User Profile): **Pending**
+- Phase 15.6 (Admin Management): **Pending**
+- Phase 15.7 (Testing): **Pending**
+- Phase 15.8 (Deployment): **Pending**
 
 ## Current State
 All phases complete. 23 routes built and verified:

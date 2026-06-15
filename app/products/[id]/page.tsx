@@ -54,7 +54,7 @@ function ImageGallery({ imageUrls, productName, productId }: { imageUrls: string
 
   if (!imageUrls || imageUrls.length === 0) {
     return (
-      <div className="h-[400px] bg-muted dark:bg-gray-800 rounded-lg flex items-center justify-center">
+      <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">
         <span className="text-muted-foreground">No image available</span>
       </div>
     );
@@ -81,7 +81,7 @@ function ImageGallery({ imageUrls, productName, productId }: { imageUrls: string
 
   return (
     <div>
-      <div className="relative h-[400px] bg-muted dark:bg-gray-800 rounded-lg overflow-hidden mb-4">
+      <div className="relative h-[400px] bg-muted rounded-lg overflow-hidden mb-4">
         <img
           src={imageUrls[currentIndex]}
           alt={`${productName} - Image ${currentIndex + 1}`}
@@ -132,13 +132,13 @@ function ImageGallery({ imageUrls, productName, productId }: { imageUrls: string
             <button
               key={i}
               onClick={() => setCurrentIndex(i)}
-              className={`h-20 bg-muted dark:bg-gray-800 rounded overflow-hidden border-2 transition-colors ${currentIndex === i ? 'border-primary' : 'border-transparent hover:border-border'}`}
+              className={`h-20 bg-muted rounded overflow-hidden border-2 transition-colors ${currentIndex === i ? 'border-primary' : 'border-transparent hover:border-border'}`}
             >
               <img src={url} alt={`${productName} thumbnail ${i + 1}`} className="w-full h-full object-cover" />
             </button>
           ))}
           {imageUrls.length > 5 && (
-            <div className="h-20 bg-muted dark:bg-gray-800 rounded flex items-center justify-center">
+            <div className="h-20 bg-muted rounded flex items-center justify-center">
               <span className="text-sm text-muted-foreground">+{imageUrls.length - 5} more</span>
             </div>
           )}
@@ -183,7 +183,7 @@ function AllProductImages({ product }: { product: Product }) {
 
   return (
     <div className="h-full min-h-[500px] flex flex-col">
-      <div className="flex-1 relative bg-muted dark:bg-gray-800 rounded-lg overflow-hidden">
+      <div className="flex-1 relative bg-muted rounded-lg overflow-hidden">
         <img
           src={images[activeLightboxIndex !== null ? activeLightboxIndex : 0]?.src || images[0]?.src}
           alt={`${product.name} - Photo`}
@@ -219,7 +219,7 @@ function AllProductImages({ product }: { product: Product }) {
             <button
               key={i}
               onClick={() => { setActiveLightboxIndex(i); setIsOpen(true); }}
-              className={`flex-shrink-0 w-16 h-16 bg-muted dark:bg-gray-800 rounded overflow-hidden border-2 transition-colors ${activeLightboxIndex === i ? 'border-primary' : 'border-transparent hover:border-border'}`}
+              className={`flex-shrink-0 w-16 h-16 bg-muted rounded overflow-hidden border-2 transition-colors ${activeLightboxIndex === i ? 'border-primary' : 'border-transparent hover:border-border'}`}
             >
               <img src={img.thumb} alt={`${product.name} thumbnail ${i + 1}`} className="w-full h-full object-cover" />
             </button>
