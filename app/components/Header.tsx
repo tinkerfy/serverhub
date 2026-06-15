@@ -40,26 +40,13 @@ export default function Header() {
 
   const isAdminRoute = pathname.startsWith('/admin');
 
+  if (isAdminRoute) return null;
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-shadow duration-200 ${scrolled ? 'bg-background/95 backdrop-blur-sm shadow-md' : 'bg-background'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Left zone */}
-          <Link
-            href="/"
-            className={`flex items-center gap-2 shrink-0 ${isAdminRoute ? 'invisible' : ''}`}
-          >
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-              </svg>
-            </div>
-            <span className="text-xl font-bold text-foreground">
-              Server<span className="text-primary">Hub</span>
-            </span>
-          </Link>
-
-          {/* Center zone */}
+          {/* Logo */}
           {isAdminRoute ? (
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
