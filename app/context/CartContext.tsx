@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import { useSettings } from './SettingsContext';
 
 export interface CartItem {
   productId: number;
@@ -29,15 +30,11 @@ interface CartContextType {
   clearCart: () => void;
 }
 
-const TAX_RATE = 0.085;
-const SHIPPING_THRESHOLD = 5000;
-const SHIPPING_COST = 150;
-
-const calculateTotals = (items: CartItem[]): Pick<CartState, 'totalItems' | 'subtotal' | 'tax' | 'shipping' | 'grandTotal'> => {
+const calculateTotals = (items: CartItem[], taxRate: number, freeThreshold: number, shippingCost: number): Pick<CartState, 'totalItems' | 'subtotal' | 'tax' | 'shipping' | 'grandTotal'> => {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * TAX_RATE;
-  const shipping = subtotal > SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const tax = subtotal * (taxRate / 100);
+  const shipping = subtotal >= freeThreshold ? 0 : shippingCost;
   const grandTotal = subtotal + tax + shipping;
   return { totalItems, subtotal, tax, shipping, grandTotal };
 };
@@ -45,6 +42,7 @@ const calculateTotals = (items: CartItem[]): Pick<CartState, 'totalItems' | 'sub
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { settings } = useSettings();
   const [items, setItems] = useState<CartItem[]>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('cart');
@@ -107,7 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const totals = calculateTotals(items);
+  const totals = calculateTotals(items, settings.taxRate, settings.freeShippingThreshold, settings.standardShipping);
 
   const cart: CartState = {
     items,

@@ -169,3 +169,18 @@ export const quotes = pgTable('quotes', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
+
+// Store Settings
+export const settings = pgTable('settings', {
+  id: serial('id').primaryKey(),
+  storeName: varchar('store_name', { length: 255 }).default('ServerHub').notNull(),
+  storeEmail: varchar('store_email', { length: 255 }).default('admin@serverhub.com').notNull(),
+  storePhone: varchar('store_phone', { length: 50 }).default('+1 (555) 123-4567').notNull(),
+  storeAddress: varchar('store_address', { length: 500 }).default('123 Server Lane, San Jose, CA 95134').notNull(),
+  standardShipping: numeric('standard_shipping', { precision: 10, scale: 2 }).default('150').notNull(),
+  expressShipping: numeric('express_shipping', { precision: 10, scale: 2 }).default('250').notNull(),
+  overnightShipping: numeric('overnight_shipping', { precision: 10, scale: 2 }).default('400').notNull(),
+  freeShippingThreshold: numeric('free_shipping_threshold', { precision: 10, scale: 2 }).default('5000').notNull(),
+  taxRate: numeric('tax_rate', { precision: 5, scale: 2 }).default('8.5').notNull(),
+  taxInclusive: boolean('tax_inclusive').default(false).notNull(),
+});

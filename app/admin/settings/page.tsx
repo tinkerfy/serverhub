@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AdminSettingsPage() {
   const [store, setStore] = useState({
@@ -20,11 +20,78 @@ export default function AdminSettingsPage() {
     inclusive: false,
   });
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+        } else if (data) {
+          setStore({
+            name: data.storeName || 'ServerHub',
+            email: data.storeEmail || 'admin@serverhub.com',
+            phone: data.storePhone || '+1 (555) 123-4567',
+            address: data.storeAddress || '123 Server Lane, San Jose, CA 95134',
+          });
+          setShipping({
+            standard: parseFloat(data.standardShipping) || 150,
+            express: parseFloat(data.expressShipping) || 250,
+            overnight: parseFloat(data.overnightShipping) || 400,
+            freeThreshold: parseFloat(data.freeShippingThreshold) || 5000,
+          });
+          setTax({
+            rate: parseFloat(data.taxRate) || 8.5,
+            inclusive: data.taxInclusive || false,
+          });
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          storeName: store.name,
+          storeEmail: store.email,
+          storePhone: store.phone,
+          storeAddress: store.address,
+          standardShipping: shipping.standard,
+          expressShipping: shipping.express,
+          overnightShipping: shipping.overnight,
+          freeShippingThreshold: shipping.freeThreshold,
+          taxRate: tax.rate,
+          taxInclusive: tax.inclusive,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+      }
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      setError('Failed to save settings. Please check your database connection.');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) return <div className="space-y-6">Loading...</div>;
 
   return (
     <div className="space-y-6">
@@ -36,6 +103,12 @@ export default function AdminSettingsPage() {
       {saved && (
         <div className="bg-success-background border border-success-background rounded-lg p-4 text-success-foreground font-medium">
           Settings saved successfully!
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-error-background border border-error-background rounded-lg p-4 text-error-foreground font-medium">
+          {error}
         </div>
       )}
 
@@ -90,8 +163,8 @@ export default function AdminSettingsPage() {
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <button onClick={handleSave} className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium">
-          Save Settings
+        <button onClick={handleSave} disabled={saving} className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+          {saving ? 'Saving...' : 'Save Settings'}
         </button>
       </div>
     </div>

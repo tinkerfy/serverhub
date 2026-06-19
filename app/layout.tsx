@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from './components/Header';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { SettingsProvider } from './context/SettingsContext';
 import { ThemeProvider } from './components/ThemeProvider';
 import { ErrorBoundary } from './lib/error-boundary';
 
@@ -70,12 +71,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background transition-colors duration-200">
         <ErrorBoundary>
           <ThemeProvider>
-            <AuthProvider>
-              <CartProvider>
-                <Header />
-                {children}
-              </CartProvider>
-            </AuthProvider>
+            <SettingsProvider>
+              <AuthProvider>
+                <CartProvider>
+                  <Header />
+                  {children}
+                </CartProvider>
+              </AuthProvider>
+            </SettingsProvider>
           </ThemeProvider>
         </ErrorBoundary>
       </body>

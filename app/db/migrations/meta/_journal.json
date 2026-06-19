@@ -15,6 +15,13 @@
       "when": 1781070574566,
       "tag": "0001_mute_mole_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781524784391,
+      "tag": "0002_shallow_champions",
+      "breakpoints": true
     }
   ]
 }
